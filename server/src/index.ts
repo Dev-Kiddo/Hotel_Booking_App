@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv/config";
 import cors from "cors";
+import mongoose from "mongoose";
 
 import type { Request, Response } from "express";
 
@@ -9,6 +10,17 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+const connectDB = async function () {
+  try {
+    const data = await mongoose.connect(process.env.MONGO_URI as string);
+    console.log(`Database ${data.connection.host} connected successfully`);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+connectDB();
 
 // Endpoint
 app.get("/api/test", async (req: Request, res: Response) => {

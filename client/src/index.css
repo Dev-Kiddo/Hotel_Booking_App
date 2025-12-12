@@ -16,3 +16,8 @@
     font-family: var(--font-montserrat);
   }
 }
+
+@theme {
+  --color-primary: #003b95;
+  --color-secondary: #ffb700;
+}

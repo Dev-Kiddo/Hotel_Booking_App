@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -8,7 +7,7 @@ const Header = () => {
         <img src="/logo.png" className="w-14" alt="logo" />
       </Link>
 
-      <Link to="/sign-in" className="bg-blue-800 text-white font-semibold py-2 px-4 border border-blue-700 rounded cursor-pointer  hover:bg-blue-600">
+      <Link to="/sign-in" className="bg-white text-primary font-medium py-2 px-4 border border-blue-900 rounded cursor-pointer  hover:bg-gray-200">
         Sign in
       </Link>
     </header>

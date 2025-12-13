@@ -5,12 +5,14 @@ import connectDB from "../config/connectDB.ts";
 
 import userRouter from "../routes/userRoute.ts";
 import errorHandler from "../middlewares/error.ts";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(cookieParser());
 
 // Routes Middleware
 app.use("/api/user", userRouter);

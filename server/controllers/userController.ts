@@ -4,19 +4,22 @@ import AppError from "../utils/AppError.ts";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
+import asyncHandler from "../middlewares/asyncHandler.ts";
 
 interface UserPayload extends jwt.JwtPayload {
   userId: string;
   role: string;
 }
 
-export const registerUser = async function (req: Request, res: Response, next: NextFunction) {
+export const registerUser = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
     res.json(errors);
   } else {
-    res.send("Successfully validated");
+    console.log("Successfully validated");
+
+    // res.send("Successfully validated");
   }
 
   let user = await userModel.findOne({ email: req.body.email });
@@ -43,4 +46,30 @@ export const registerUser = async function (req: Request, res: Response, next: N
     message: "User registered successfully",
     user,
   });
-};
+});
+
+export const loginUser = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    res.json(errors);
+  } else {
+    console.log("Successfully validated");
+  }
+
+  const user = await userModel.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new AppError("User doesn't exists. Please sign up", 400, true));
+  }
+
+  if (req.user !== user._id) {
+    return next(new AppError("Login Failed. try again later", 400, true));
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Login successfully",
+    user: req.user,
+  });
+});

@@ -17,7 +17,7 @@ export const registerUser = asyncHandler(async function (req: Request, res: Resp
   if (!errors.isEmpty()) {
     res.json(errors);
   } else {
-    console.log("Successfully validated");
+    console.log("Registration Successfully validated");
 
     // res.send("Successfully validated");
   }
@@ -54,22 +54,41 @@ export const loginUser = asyncHandler(async function (req: Request, res: Respons
   if (!errors.isEmpty()) {
     res.json(errors);
   } else {
-    console.log("Successfully validated");
+    console.log("Login Successfully validated");
   }
 
   const user = await userModel.findOne({ email: req.body.email });
 
   if (!user) {
-    return next(new AppError("User doesn't exists. Please sign up", 400, true));
+    return next(new AppError("Invalid Credentials", 400, true));
   }
 
-  if (req.user !== user._id) {
-    return next(new AppError("Login Failed. try again later", 400, true));
+  // if (req.user !== user._id) {
+  //   console.log(req.user);
+  //   console.log(user._id);
+
+  //   return next(new AppError("Login Failed. try again later", 400, true));
+  // }
+
+  const isMatch = await bcrypt.compare(req.body.password, user.password);
+  console.log("isMatch:", isMatch);
+
+  if (!isMatch) {
+    return next(new AppError("Invalid Credentials", 400, true));
   }
+
+  const payload: UserPayload = {
+    userId: user!._id,
+    role: user!.role,
+  };
+
+  const token = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: "1d" });
+
+  res.cookie("accessToken", token, { maxAge: 86400000, httpOnly: true, secure: process.env.NODE_ENV === "production" });
 
   res.status(200).json({
     success: true,
     message: "Login successfully",
-    user: req.user,
+    user,
   });
 });

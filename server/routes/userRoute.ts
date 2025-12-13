@@ -17,8 +17,6 @@ router
     registerUser
   );
 
-router
-  .route("/login")
-  .post([check("email", "email is required").isEmail(), check("password", "Password length should be morethan 4 characters").isLength({ min: 4 })], auth, loginUser);
+router.route("/login").post([check("email", "email is required").isEmail(), check("password", "Password length should be morethan 4 characters").isLength({ min: 4 })], loginUser);
 
 export default router;

@@ -12,12 +12,12 @@ const Signup = () => {
   return (
     <>
       <section className="w-full max-w-5xl mx-auto ">
-        <form>
+        <form className="px-6">
           <div className="mb-10">
             <h2 className="text-3xl font-medium text-center">Sign up or create an account</h2>
           </div>
 
-          <div className=" flex gap-x-6 mb-6">
+          <div className="flex flex-col gap-6 mb-6 md:flex-row">
             <div className="w-full relative">
               <label className="flex items-center mb-2 text-gray-600 text-sm">
                 First Name{" "}
@@ -67,7 +67,7 @@ const Signup = () => {
             />
           </div>
 
-          <div className="flex gap-x-6 mb-6">
+          <div className="flex flex-col gap-6 mb-6 md:flex-row">
             <div className="w-full relative">
               <label className="flex  items-center mb-2 text-gray-600 text-sm ">
                 Password{" "}

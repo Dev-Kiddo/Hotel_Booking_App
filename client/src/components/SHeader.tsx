@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const SHeader = () => {
   return (
-    <header className="flex items-center justify-between max-w-7xl mx-auto">
+    <header className="flex items-center justify-between max-w-7xl mx-auto px-6">
       <Link to="/">
         <img src="/logo.png" className="w-14" alt="logo" />
       </Link>
